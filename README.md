@@ -85,7 +85,7 @@ A polish version of this app with extra features will likely be complicated and 
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="wireframe.PNG" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
