@@ -49,7 +49,6 @@ A polish version of this app with extra features will likely be complicated and 
 
 * Login Screen
    * User can login
-* Registration Screen
    * User can create a new account
 * Search
    * User can search for products
@@ -72,16 +71,16 @@ A polish version of this app with extra features will likely be complicated and 
 **Flow Navigation** (Screen to Screen)
 
 * Login Screen
-   * Registration
-   * Search
-* Registration Screen
    * Search
 * Search
    * Product Detail
 * Cart
    * Product Detail
 * Profile
-    * Login
+   * Login (when signing out)
+* Product Detail
+   * Search
+   * Cart
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
