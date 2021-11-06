@@ -91,10 +91,58 @@ A polish version of this app with extra features will likely be complicated and 
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+#### ProductItem
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id  |
+   | UPC        | String| UPC code unique to each product |
+   | image         | String     | image of product |
+   | Description       | String   | Description of the item |
+   | Unit | Number   | Amount per item (1 pound, 1 item, etc.) |
+   | Price    | Number   | Regular price of the item |
+   | Store    | String   | What store the item is sold at |
+   
+#### User
+| Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | userId      | String   | unique id for the user  |
+   | username        | String| Name of the user|
+   | password       | String     | password for user |
+   | shoppingCart      | Object     | Custom object to store items user wants to purchase |
+  
+#### ShoppingCart
+| Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the cart  |
+   | Items       | List of ProductItem | A list containing ProductItem objects that the user has selected to buy|
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+#### List of network requests by screen
+   - Login Screen
+      - (Sign up/POST) Make a new account
+      - (Login/GET) Log into an already created account
+   - Search Screen
+      - (Search/GET) Get a list of ProductItem from the Kroger API
+      - (Add/POST) Allow the user to add a ProductItem to their Cart 
+   - Profile Screen
+      - (Update/PUT) Log the user out of the app
+   - Cart Screen
+      - (RemoveItem/DELETE) Be able to remove an item from the cart.
+      - (GET) Be able to get the data from the cart object and display it
+
+
+#### [OPTIONAL:] Existing API Endpoints
+##### An API Of Ice And Fire
+- Base URL - [https://api.kroger.com/v1]
+
+   HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /connect/oauth2/token | Get an access token
+    `GET`    | /products | return a list of products from a store
+    `GET`    | /locations   | Return a list of locations
+
+
+
