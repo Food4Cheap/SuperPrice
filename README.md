@@ -28,9 +28,13 @@ It's unlikely people would use this app in their free time nor is it addictive t
 - **Scope:**
 A polish version of this app with extra features will likely be complicated and hard to complete by the end unless we commit alot of time. However, meeting the required user stories will still result a usable app with practical application
 
-### Video Walkthrough
+### Milestone 1 Video Walkthrough of sign up 
 
 <img src='walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+### Milestone 1 Video Walkthrough of Kroger client searching milk in local stores
+
+<img src='Food4CheapMilestone1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
