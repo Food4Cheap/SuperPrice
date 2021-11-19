@@ -36,6 +36,14 @@ A polish version of this app with extra features will likely be complicated and 
 
 <img src='Food4CheapMilestone1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
+### Milestone 1 Video Walkthrough of xml layouts
+
+<img src='Milestone1xmlWalkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+### Milestone 1 Video Walkthrough of Parse
+
+<img src='parsewalkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Product Spec
