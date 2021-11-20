@@ -52,9 +52,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 **Required Must-have Stories**
 
-* Be able to search products and their details from at least 3 different major supermarkets(Target,Walmart,Albertsons, Trader Joes, Pavilions, something).
-* Cart function so that you can add all the products you want into one place so that you can compare the overall price.
-* Be able to create and log into accounts that save the list of products you want to buy.
+* [] Be able to search products and their details from at least 3 different major supermarkets.
+* [] Cart function so that you can add all the products you want into one place so that you can compare the overall price.
+* [x] Be able to create and log into accounts 
+* [] Accounts save the list of products you want to buy.
 
 
 **Optional Nice-to-have Stories**
