@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
         //This basically creates a pop up asking the user for Location permissions. Despite the permissions in Manifest, we still need personal authorization from the user due to security reasons implemented in higher APIs.
         ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
-        krogerClient=new KrogerClient(this);
-        locationsDetailsList=krogerClient.getLocations("Ralphs");
-        krogerClient.getItems("Milk",locationsDetailsList.get(0));
+       krogerClient= new KrogerClient(this);
+       //locationsDetailsList=krogerClient.getLocations("Ralphs");
+       //krogerClient.getItems("Milk",locationsDetailsList.get(0));
 
     }
 }

@@ -12,6 +12,8 @@ public class ProductItem extends ParseObject{
     public static final String KEY_PRICE = "price";
     public static final String KEY_UNIT = "unit";
     public static final String KEY_STORE = "store";
+    public static final String KEY_ITEM_NAME = "itemName";
+    public static final String KEY_STORE_ADDRESS = "storeAddress";
 
     public String getUPC(){
         return getString(KEY_UPC);
@@ -31,6 +33,8 @@ public class ProductItem extends ParseObject{
     public String getStore(){
         return getString(KEY_STORE);
     }
+    public String getItemName(){ return getString(KEY_ITEM_NAME); }
+    public String getStoreAddress() { return getString(KEY_STORE_ADDRESS); }
 
     public void setUPC(String UPC){
         put(KEY_UPC, UPC);
@@ -50,4 +54,6 @@ public class ProductItem extends ParseObject{
     public void setStore(String store){
         put(KEY_STORE, store);
     }
+    public void setItemName(String itemName){ put(KEY_ITEM_NAME, itemName); }
+    public void setStoreAddress(String storeAddress) { put(KEY_ITEM_NAME, storeAddress); }
 }
