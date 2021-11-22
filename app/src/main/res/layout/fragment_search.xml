@@ -12,6 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:minHeight="48dp"
+        android:text="Bruh"
+        android:inputType="text"
+        android:maxLines="1"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView

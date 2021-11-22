@@ -31,7 +31,7 @@ import okhttp3.Response;
 public class KrogerClient {
 
     public static final String TAG = "KrogerClient";
-    public static final String RADIUS="100";
+    public static final String RADIUS="50";
     public static final String LOCATIONLIMIT="10";
     private String Access_Token;
     private OkHttpClient client;
@@ -62,7 +62,7 @@ public class KrogerClient {
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Basic c3VwZXJwcmljZS1lYjdmNmEwOGZlMGJiMDQ3YWJmZTIyODRhOTVjNzRmYjM4MzQzMDkyMTk0OTQ3MTgwNTU6T3pydHlPbnFXamU4VVc2NDhTMEdZV092R3h2R2VCZERUbkdFYkkzUQ==")
+                .addHeader("Authorization", "Basic CLIENT KEY AND SECRET GOES HERE")
                 .build();
         //Asynchronous call for client to grab a new access token
         client.newCall(request1).enqueue(new Callback() {
@@ -111,7 +111,6 @@ public class KrogerClient {
 
         }
 
-
         //Code to get the best location. For some reason .getLastKnownLocation will return null sometimes even when location permission are active, so this is just gonna check all the providers to
         //see if they have a good location
         List<String> providers = lm.getProviders(true);
@@ -133,8 +132,6 @@ public class KrogerClient {
         Log.d(TAG,"Longitude "+longitude);
         Log.d(TAG,"Latitude "+latitude);
         //By default, the emulator is set to be in a Google Office building in Northern California, so we need to change the emulator's location to check the proper locations.
-
-
         //For the request we can pass in longitude and latitude. We can also pass in a zipcode, though longitude and latitude is more accurate
         //Additionally, we can change the range of possible locations, from 1 to 100 miles, and we can filter out which brands we want.
         //For some reason, brands that are included is Shell (the gas station) and Covid (I have no idea how this is a brand of Kroger) so we will need to filter these out.
@@ -167,6 +164,7 @@ public class KrogerClient {
                             locations.add(new LocationDetails());
                             locations.get(i).setLocationId(listOfLocations.getJSONObject(i).getInt("locationId"));
                             locations.get(i).setStoreName(listOfLocations.getJSONObject(i).getString("name"));
+                            locations.get(i).setStreetAddress(listOfLocations.getJSONObject(i).getJSONObject("address").getString("addressLine1"));
                             Log.i(TAG,"LocationId: "+listOfLocations.getJSONObject(i).getString("name"));
                         }
                         temp[0] =locations;
@@ -193,10 +191,10 @@ public class KrogerClient {
 
     }
 
-    public void getItems(String search, LocationDetails location)
+    public List<ProductItem> getItems(String search, LocationDetails location)
     {
         //
-        List<ProductItem> listofProductItems=new ArrayList<>();
+        final List<ProductItem>[] listofProductItems =  new List[]{null};
         Request request = new Request.Builder()
                 .url("https://api.kroger.com/v1/products?filter.term="+search+"&filter.locationId="+location.getLocationId())
                 .get()
@@ -214,31 +212,43 @@ public class KrogerClient {
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     Log.i(TAG,"Items from "+location.getLocationId()+" "+jsonObject.toString());
-
+                    listofProductItems[0] =new ArrayList<>();
                     JSONArray listOfItems=jsonObject.getJSONArray("data");
                     for (int i=0;i<listOfItems.length();i++)
                     {
-                        listofProductItems.add(new ProductItem());
-                        listofProductItems.get(i).setDescription(listOfItems.getJSONObject(i).getString("description"));
+                        listofProductItems[0].add(new ProductItem());
+                        listofProductItems[0].get(i).setItemName(listOfItems.getJSONObject(i).getString("description"));
                         //Why is getting the price so annoying
-                        listofProductItems.get(i).setPrice(listOfItems.getJSONObject(i).getJSONArray("items").getJSONObject(0).getJSONObject("price").getDouble("regular"));
+                        listofProductItems[0].get(i).setPrice(listOfItems.getJSONObject(i).getJSONArray("items").getJSONObject(0).getJSONObject("price").getDouble("regular"));
 
                         //Inconsistent image sizes. Hope that glide will account for this or we will have to search for the correct sizes
-                        listofProductItems.get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(3).getString("url"));
-                        listofProductItems.get(i).setUPC(listOfItems.getJSONObject(i).getString("upc"));
-                        listofProductItems.get(i).setStore(location.getStoreName());
+                        listofProductItems[0].get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(3).getString("url"));
+                        listofProductItems[0].get(i).setUPC(listOfItems.getJSONObject(i).getString("upc"));
+                        listofProductItems[0].get(i).setStore(location.getStoreName());
+                        listofProductItems[0].get(i).setStoreAddress(location.getStreetAddress());
 
-                        Log.i(TAG,"Store name: "+ listofProductItems.get(i).getStore());
-                        Log.i(TAG,"Description: "+listofProductItems.get(i).getDescription());
-                        Log.i(TAG,"Price: "+listofProductItems.get(i).getPrice());
-                        Log.i(TAG,"Image url: "+listofProductItems.get(i).getImageUrl());
-                        Log.i(TAG,"UPC : "+listofProductItems.get(i).getUPC());
+
+                        Log.i(TAG,"Store name: "+ listofProductItems[0].get(i).getStore());
+                        Log.i(TAG,"Description: "+ listofProductItems[0].get(i).getDescription());
+                        Log.i(TAG,"Price: "+ listofProductItems[0].get(i).getPrice());
+                        Log.i(TAG,"Image url: "+ listofProductItems[0].get(i).getImageUrl());
+                        Log.i(TAG,"UPC : "+ listofProductItems[0].get(i).getUPC());
                     }
                 }catch (JSONException err){
                     Log.d("Error", err.toString());
                 }
             }
         });
+
+        while(listofProductItems[0]==null){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return listofProductItems[0];
     }
 
     public void getChainList()

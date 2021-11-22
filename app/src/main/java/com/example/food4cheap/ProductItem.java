@@ -55,5 +55,5 @@ public class ProductItem extends ParseObject{
         put(KEY_STORE, store);
     }
     public void setItemName(String itemName){ put(KEY_ITEM_NAME, itemName); }
-    public void setStoreAddress(String storeAddress) { put(KEY_ITEM_NAME, storeAddress); }
+    public void setStoreAddress(String storeAddress) { put(KEY_STORE_ADDRESS, storeAddress); }
 }
