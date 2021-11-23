@@ -6,15 +6,16 @@
     android:orientation="vertical"
     tools:context=".fragments.SearchFragment">
 
-    <EditText
+    <TextView
         android:id="@+id/tvCart"
         android:layout_width="385dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:minHeight="48dp"
-        android:text="Bruh"
         android:inputType="text"
         android:maxLines="1"
+        android:minHeight="48dp"
+        android:text="Your Cart: $XX.XX"
+        android:textSize="40sp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView

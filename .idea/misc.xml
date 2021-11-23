@@ -5,15 +5,14 @@
       <map>
         <entry key="..\:/Food4Cheap/app/src/main/res/layout/activity_login.xml" value="0.3307291666666667" />
         <entry key="..\:/Food4Cheap/app/src/main/res/layout/activity_main.xml" value="0.3307291666666667" />
-        <entry key="..\:/Food4Cheap/app/src/main/res/layout/fragment_item_details.xml" value="0.32708333333333334" />
-        <entry key="..\:/Food4Cheap/app/src/main/res/layout/search_item.xml" value="0.32708333333333334" />
-        <entry key="..\:/Food4Cheap/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.32708333333333334" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/content_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/fragment_cart.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/fragment_item_details.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/fragment_profile.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/fragment_search.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/layout/search_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/charl/AndroidStudioProjects/SuperPrice/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.33" />
       </map>
     </option>

@@ -8,15 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.food4cheap.KrogerClient;
@@ -30,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 
 public class SearchFragment extends Fragment {
@@ -59,7 +54,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etSearchText=view.findViewById(R.id.etItemSearch);
+        etSearchText=view.findViewById(R.id.tvCart);
         rvProductItems=view.findViewById(R.id.rvItems);
         productItemList= new ArrayList<>();
         krogerClient=new KrogerClient(((MainActivity)getActivity()));
