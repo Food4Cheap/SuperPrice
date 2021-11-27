@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.food4cheap.fragments.CartFragment;
@@ -16,7 +17,11 @@ import com.example.food4cheap.fragments.ItemDetailsFragment;
 import com.example.food4cheap.fragments.ProfileFragment;
 import com.example.food4cheap.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -34,6 +39,37 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
         }
+        ShoppingCart currentCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+        try {
+            if(currentCart.fetchIfNeeded() == null){
+
+            }
+        } catch (ParseException e) {
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    ParseUser.getCurrentUser().put("shoppingCart", shoppingCart);
+                    ParseUser.getCurrentUser().saveInBackground();
+                }
+            });
+        }
+
+        /*
+        ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    ParseUser.getCurrentUser().put("shoppingCart", shoppingCart);
+                    ParseUser.getCurrentUser().saveInBackground();
+                }
+            }); */
+
+       /* ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+        if(shoppingCart == null){
+            shoppingCart = new ShoppingCart();
+            shoppingCart.saveInBackground();
+        }*/
 
         //This basically creates a pop up asking the user for Location permissions. Despite the permissions in Manifest, we still need personal authorization from the user due to security reasons implemented in higher APIs.
 

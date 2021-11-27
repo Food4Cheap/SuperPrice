@@ -12,6 +12,8 @@ public class ParseApp extends Application {
 
         //Register subclasses up here
         ParseObject.registerSubclass(ProductItem.class);
+        ParseObject.registerSubclass(ShoppingCart.class);
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("0PeQm5NCTYO5qHi1cdw2FpPPm4WRpAReqRTNI3ty")
                 .clientKey("HVY8iq7se99xAc0fPK6NyBWsSDOzlgl2ylNJunVg")

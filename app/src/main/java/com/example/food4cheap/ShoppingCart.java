@@ -5,7 +5,7 @@ import com.parse.ParseObject;
 
 import org.json.JSONArray;
 
-@ParseClassName("shoppingCart")
+@ParseClassName("ShoppingCart")
 public class ShoppingCart extends ParseObject{
     public static final String KEY_ITEMS = "items";
 
@@ -15,6 +15,9 @@ public class ShoppingCart extends ParseObject{
 
     public void addItem(ProductItem item){
         JSONArray items = getItems();
+        if(items == null){
+            items = new JSONArray();
+        }
         items.put(item);
         put(KEY_ITEMS, items);
     }
@@ -23,4 +26,5 @@ public class ShoppingCart extends ParseObject{
         JSONArray items = new JSONArray();
         put(KEY_ITEMS, items);
     }
+
 }

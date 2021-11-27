@@ -12,6 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -71,12 +77,22 @@ public class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapte
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Save item to database / add to shopping cart
+                    item.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+                                shoppingCart.addItem(item);
+                                shoppingCart.saveInBackground();
+                            }
+                        }
+                    });
                 }
             });
 
         }
     }
+
 }
 
 
