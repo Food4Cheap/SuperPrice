@@ -222,7 +222,8 @@ public class KrogerClient {
                         listofProductItems[0].get(i).setPrice(listOfItems.getJSONObject(i).getJSONArray("items").getJSONObject(0).getJSONObject("price").getDouble("regular"));
 
                         //Inconsistent image sizes. Hope that glide will account for this or we will have to search for the correct sizes
-                        listofProductItems[0].get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(3).getString("url"));
+                        int imageLength=listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").length();
+                        listofProductItems[0].get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(imageLength-1).getString("url"));
                         listofProductItems[0].get(i).setUPC(listOfItems.getJSONObject(i).getString("upc"));
                         listofProductItems[0].get(i).setStore(location.getStoreName());
                         listofProductItems[0].get(i).setStoreAddress(location.getStreetAddress());

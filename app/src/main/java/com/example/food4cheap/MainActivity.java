@@ -41,7 +41,18 @@ public class MainActivity extends AppCompatActivity {
         }
         ShoppingCart currentCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
         try {
-            if(currentCart.fetchIfNeeded() == null){
+            if (currentCart ==null)
+            {
+                ShoppingCart shoppingCart = new ShoppingCart();
+                shoppingCart.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        ParseUser.getCurrentUser().put("shoppingCart", shoppingCart);
+                        ParseUser.getCurrentUser().saveInBackground();
+                    }
+                });
+            }
+            else if (currentCart.fetchIfNeeded() == null){
 
             }
         } catch (ParseException e) {
