@@ -62,7 +62,7 @@ public class KrogerClient {
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Basic c3VwZXJwcmljZS1lYjdmNmEwOGZlMGJiMDQ3YWJmZTIyODRhOTVjNzRmYjM4MzQzMDkyMTk0OTQ3MTgwNTU6T3pydHlPbnFXamU4VVc2NDhTMEdZV092R3h2R2VCZERUbkdFYkkzUQ==")
+                .addHeader("Authorization", "Basic KEY HERE")
                 .build();
         //Asynchronous call for client to grab a new access token
         client.newCall(request1).enqueue(new Callback() {
@@ -222,8 +222,7 @@ public class KrogerClient {
                         listofProductItems[0].get(i).setPrice(listOfItems.getJSONObject(i).getJSONArray("items").getJSONObject(0).getJSONObject("price").getDouble("regular"));
 
                         //Inconsistent image sizes. Hope that glide will account for this or we will have to search for the correct sizes
-                        int imageLength=listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").length();
-                        listofProductItems[0].get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(imageLength-1).getString("url"));
+                        listofProductItems[0].get(i).setImageUrl(listOfItems.getJSONObject(i).getJSONArray("images").getJSONObject(0).getJSONArray("sizes").getJSONObject(3).getString("url"));
                         listofProductItems[0].get(i).setUPC(listOfItems.getJSONObject(i).getString("upc"));
                         listofProductItems[0].get(i).setStore(location.getStoreName());
                         listofProductItems[0].get(i).setStoreAddress(location.getStreetAddress());
