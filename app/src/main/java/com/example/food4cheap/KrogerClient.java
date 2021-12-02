@@ -47,7 +47,6 @@ public class KrogerClient {
 
         Access_Token = getNewAccessToken();
 
-        Log.d(TAG, "Right after " + Access_Token);
 
     }
 
@@ -62,7 +61,7 @@ public class KrogerClient {
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Basic KEY HERE")
+                .addHeader("Authorization", "Basic c3VwZXJwcmljZS1lYjdmNmEwOGZlMGJiMDQ3YWJmZTIyODRhOTVjNzRmYjM4MzQzMDkyMTk0OTQ3MTgwNTU6T3pydHlPbnFXamU4VVc2NDhTMEdZV092R3h2R2VCZERUbkdFYkkzUQ==")
                 .build();
         //Asynchronous call for client to grab a new access token
         client.newCall(request1).enqueue(new Callback() {
