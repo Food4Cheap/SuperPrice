@@ -24,8 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="14dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="7dp"
+        android:layout_toEndOf="@+id/tvUsername"
         android:textSize="30sp"
         tools:text="Username" />
 
@@ -41,7 +43,7 @@
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tvSaved"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -49,6 +51,18 @@
         android:layout_marginTop="76dp"
         android:layout_marginEnd="9dp"
         android:textSize="30sp"
-        tools:text="$00.00" />
+        tools:text="N/A" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="16dp"
+        android:text="Log out" />
 
 </RelativeLayout>
