@@ -46,13 +46,19 @@ A polish version of this app with extra features will likely be complicated and 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
+### Milestone 2 Video Walkthrough of Search Function
+
+<img src='Food4CheapMilestone2gif1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+
 ## Product Spec
 
 ### 1. User Stories (Required and Optional)
 
 **Required Must-have Stories**
 
-* [] Be able to search products and their details from at least 3 different major supermarkets.
+* [x] Be able to search products and their details from at least 3 different major supermarkets.
 * [] Cart function so that you can add all the products you want into one place so that you can compare the overall price.
 * [x] Be able to create and log into accounts 
 * [] Accounts save the list of products you want to buy.

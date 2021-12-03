@@ -32,16 +32,20 @@ public class MainActivity extends AppCompatActivity {
     List<String> locations;
     List<LocationDetails> locationsDetailsList;
     final FragmentManager fragmentManager=getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(ParseUser.getCurrentUser() == null){
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
         }
+
+
         ShoppingCart currentCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
         try {
-            if (currentCart ==null)
+            if (currentCart == null)
             {
                 ShoppingCart shoppingCart = new ShoppingCart();
                 shoppingCart.saveInBackground(new SaveCallback() {
@@ -91,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
         Fragment fragment=new SearchFragment();
         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
-       //krogerClient= new KrogerClient(this);
-       //locationsDetailsList=krogerClient.getLocations("Ralphs");
-       //krogerClient.getItems("Milk",locationsDetailsList.get(0));
+        //krogerClient= new KrogerClient(this);
+        //locationsDetailsList=krogerClient.getLocations("Ralphs");
+        //krogerClient.getItems("Milk",locationsDetailsList.get(0));
 
 
         // Bottom Navigation
@@ -107,14 +111,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
                         break;
-                    case R.id.action_search:
-                        fragment = new SearchFragment();
-                        break;
                     case R.id.action_cart:
                         fragment = new CartFragment();
                         break;
+                    case R.id.action_search:
                     default:
                         fragment = new SearchFragment();
+                        break;
                 }
 
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
@@ -123,6 +126,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bottomNavigationView.setSelectedItemId(R.id.action_search);
-
     }
+
 }
