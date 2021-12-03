@@ -12,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -63,7 +60,7 @@ public class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapte
             tvItemName = itemView.findViewById(R.id.tvItemName);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvAddress = itemView.findViewById(R.id.tvAddress);
-            btnAdd = itemView.findViewById(R.id.btnAdd);
+            btnAdd = itemView.findViewById(R.id.btnQuantity);
         }
 
         public void bind(ProductItem item) {

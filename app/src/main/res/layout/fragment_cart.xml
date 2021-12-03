@@ -21,7 +21,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvItems"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="4dp" />
+        android:layout_height="410dp"
+        android:padding="4dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/btnUpdateCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Cart" />
 
 </LinearLayout>

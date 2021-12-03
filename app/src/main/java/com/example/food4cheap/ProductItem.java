@@ -10,7 +10,7 @@ public class ProductItem extends ParseObject{
     public static final String KEY_IMAGE_URL = "imageURL";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_PRICE = "price";
-    public static final String KEY_UNIT = "unit";
+    public static final String KEY_QUANTITY = "quantity";
     public static final String KEY_STORE = "store";
     public static final String KEY_ITEM_NAME = "itemName";
     public static final String KEY_STORE_ADDRESS = "storeAddress";
@@ -27,8 +27,8 @@ public class ProductItem extends ParseObject{
     public double getPrice(){
         return getDouble(KEY_PRICE);
     }
-    public String getUnit(){
-        return getString(KEY_UNIT);
+    public int getQuantity(){
+        return getInt(KEY_QUANTITY);
     }
     public String getStore(){
         return getString(KEY_STORE);
@@ -48,9 +48,7 @@ public class ProductItem extends ParseObject{
     public void setPrice(double price){
         put(KEY_PRICE, price);
     }
-    public void setUnit(String unit){
-        put(KEY_UNIT, unit);
-    }
+    public void setQuantity(int quantity){ put(KEY_QUANTITY, quantity); }
     public void setStore(String store){
         put(KEY_STORE, store);
     }

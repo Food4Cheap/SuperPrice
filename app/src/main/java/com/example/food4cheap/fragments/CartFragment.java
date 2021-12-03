@@ -12,16 +12,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.food4cheap.ProductItem;
 import com.example.food4cheap.ProductItemsAdapter;
 import com.example.food4cheap.R;
 import com.example.food4cheap.ShoppingCart;
+import com.example.food4cheap.ShoppingCartItemsAdapter;
 import com.google.gson.JsonArray;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +41,11 @@ public class CartFragment extends Fragment {
 
     RecyclerView rvItems;
     List<ProductItem> itemsCart;
-    ProductItemsAdapter productItemsAdapter;
+    List<ProductItem> copyItemsCart; //Used to update cart by checking for changes
+    ShoppingCartItemsAdapter shoppingCartItemsAdapter;
+    TextView tvCart;
+    double totalPrice = 0;
+    Button btnUpdateCart;
 
     public CartFragment() {
         // Required empty public constructor
@@ -54,46 +62,26 @@ public class CartFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        tvCart = view.findViewById(R.id.tvCart);
+        ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+        tvCart.setText("Total: $" + shoppingCart.getPrice());
         rvItems = view.findViewById(R.id.rvItems);
         itemsCart = new ArrayList<ProductItem>();
-        ProductItemsAdapter productItemsAdapter = new ProductItemsAdapter(getContext(), itemsCart);
+        ShoppingCartItemsAdapter shoppingCartItemsAdapter = new ShoppingCartItemsAdapter(getContext(), itemsCart);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvItems.setAdapter(productItemsAdapter);
-        /*
-        List<ProductItem> cartItems = new ArrayList<ProductItem>();
-        ShoppingCart cart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
-        JSONArray cartArr = cart.getItems();
-
-        ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
-        ArrayList<String> collection = new ArrayList<String>();
-        for(int i = 0; i < cartArr.length(); i++){
-            try {
-                collection.add(cartArr.getJSONObject(i).getString("objectId"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        query.whereContainedIn("objectId", collection);
-        query.findInBackground(new FindCallback<ProductItem>() {
+        rvItems.setAdapter(shoppingCartItemsAdapter);
+        fillModel(shoppingCartItemsAdapter);
+        btnUpdateCart = view.findViewById(R.id.btnUpdateCart);
+        btnUpdateCart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(List<ProductItem> objects, ParseException e) {
-                if(e == null){
-                    for(ProductItem item : objects){
-                        itemsCart.add(item);
-                    }
-                    productItemsAdapter.notifyDataSetChanged();
-                }
-                else{
-                    Log.e(TAG, "Failed to fetch items in cart", e);
-                }
+            public void onClick(View view) {
+
             }
-        }); */
-        fillModel(productItemsAdapter);
+        });
 
         }
 
-        //For some reason crashes when calling the method but if i paste the code it works. Says that the productItemsAdapter is a null object reference not really sure why
-        public void fillModel(ProductItemsAdapter productItemsAdapter){
+        public void fillModel(ShoppingCartItemsAdapter shoppingCartItemsAdapter){
             List<ProductItem> cartItems = new ArrayList<ProductItem>();
             ShoppingCart cart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
             JSONArray cartArr = cart.getItems();
@@ -114,8 +102,10 @@ public class CartFragment extends Fragment {
                     if(e == null){
                         for(ProductItem item : objects){
                             itemsCart.add(item);
+                            totalPrice += item.getPrice() * item.getQuantity();
                         }
-                        productItemsAdapter.notifyDataSetChanged();
+                        shoppingCartItemsAdapter.notifyDataSetChanged();
+                        tvCart.setText("Total: $" + totalPrice);
                     }
                     else{
                         Log.e(TAG, "Failed to fetch items in cart", e);
