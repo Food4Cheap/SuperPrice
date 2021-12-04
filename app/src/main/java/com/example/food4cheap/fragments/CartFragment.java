@@ -125,14 +125,17 @@ public class CartFragment extends Fragment {
         }
         public List<ProductItem> addSeparators(List<ProductItem> items){
             String currentStoreName = items.get(0).getStoreAddress();
+            String currentStoreBrand=items.get(0).getStore();
             double totalPrice = 0;
             for(int i = 0; i < items.size(); i++){
                 if(currentStoreName.compareTo(items.get(i).getStoreAddress()) != 0){
                     ProductItem separator = new ProductItem();
                     separator.setStoreAddress(currentStoreName);
                     separator.setPrice(totalPrice);
+                    separator.setStore(currentStoreBrand);
                     separator.setItemName("STORE TOTAL");
                     currentStoreName = items.get(i).getStoreAddress();
+                    currentStoreBrand = items.get(i).getStore();
                     totalPrice = 0;
                     items.add(i, separator);
                 }
@@ -143,6 +146,7 @@ public class CartFragment extends Fragment {
             ProductItem end = new ProductItem();
             end.setStoreAddress(currentStoreName);
             end.setPrice(totalPrice);
+            end.setStore(currentStoreBrand);
             end.setItemName("STORE TOTAL");
             items.add(end);
             return items;

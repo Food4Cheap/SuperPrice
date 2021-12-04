@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 Fragment fragment;
+                Bundle bundle = new Bundle();
+
                 switch (menuItem.getItemId()) {
                     case R.id.action_profile:
                         fragment = new ProfileFragment();

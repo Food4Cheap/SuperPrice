@@ -14,11 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<ShoppingCartItemsAdapter.ViewHolder> {
+public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int NORMAL=33;
+    public static final int STORE_SEPARATOR = 32;
     Context context;
     List<ProductItem> productItems;
 
@@ -29,16 +35,33 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<ShoppingCartI
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View productItemView = LayoutInflater.from(context).inflate(R.layout.cart_item, parent, false);
-        return new ViewHolder(productItemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType==NORMAL)
+        {
+            View productItemView = LayoutInflater.from(context).inflate(R.layout.cart_item, parent, false);
+            return new ViewHolder(productItemView);
+        }
+        else{
+            View productItemView = LayoutInflater.from(context).inflate(R.layout.cart_total, parent, false);
+            return new ViewHolder2(productItemView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull RecyclerView.ViewHolder holder, int position) {
         ProductItem item = productItems.get(position);
-        holder.bind(item);
+        if(holder.getItemViewType()==STORE_SEPARATOR)
+        {
+            ViewHolder2 temp=(ViewHolder2) holder;
+            temp.bind(item);
+        }
+        else{
+            ViewHolder temp=(ViewHolder) holder;
+            temp.bind(item);
+        }
+
     }
+
 
     public void clearAll(){
         productItems = new ArrayList<ProductItem>();
@@ -48,6 +71,16 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<ShoppingCartI
     @Override
     public int getItemCount() {
         return productItems.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(productItems.get(position).getItemName().equals("STORE TOTAL"))
+        {
+            return STORE_SEPARATOR;
+        }
+        return NORMAL;
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -101,6 +134,25 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<ShoppingCartI
                 btnDecrease.setVisibility(View.INVISIBLE);
                 tvQuantity.setVisibility(View.INVISIBLE);
             }
+        }
+    }
+    class ViewHolder2 extends RecyclerView.ViewHolder
+    {
+        TextView tvStoreName;
+        TextView tvStoreAddress;
+        TextView tvTotalPrice;
+        public ViewHolder2(@NonNull @NotNull View itemView) {
+            super(itemView);
+            tvStoreAddress=itemView.findViewById(R.id.tvStoreAddress);
+            tvStoreName=itemView.findViewById(R.id.tvStoreName);
+            tvTotalPrice=itemView.findViewById(R.id.tvTotalPrice);
+        }
+        public void bind(ProductItem item)
+        {
+            DecimalFormat numberFormat = new DecimalFormat("#.00");
+            tvStoreAddress.setText(item.getStoreAddress());
+            tvStoreName.setText(item.getStore());
+            tvTotalPrice.setText("$ "+numberFormat.format(item.getPrice()));
         }
     }
 }
