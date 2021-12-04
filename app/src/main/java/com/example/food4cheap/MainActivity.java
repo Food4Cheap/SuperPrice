@@ -23,14 +23,17 @@ import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
-    KrogerClient krogerClient;
+    public KrogerClient krogerClient;
     List<String> locations;
-    List<LocationDetails> locationsDetailsList;
+    public List<LocationDetails> locationsDetailsList;
+
+    private String brands[]={"Kroger","Bakers","CityMarket","Dillons","Food4Less","FoodsCo","FredMeyer","Frys","Gerbes","JayC","KingSoopers","MetroMarket","Owens","PayLess","PicknSave","QFC","Ralphs","Smiths"};
     final FragmentManager fragmentManager=getSupportFragmentManager();
 
     @Override
@@ -41,7 +44,11 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
         }
-
+        krogerClient=new KrogerClient(this);
+        locationsDetailsList=new ArrayList<>();
+        for (String brand : brands) {
+            locationsDetailsList.addAll(krogerClient.getLocations(brand));
+        }
 
         ShoppingCart currentCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
         try {

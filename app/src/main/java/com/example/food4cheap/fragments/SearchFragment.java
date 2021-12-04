@@ -62,17 +62,19 @@ public class SearchFragment extends Fragment {
         etSearchText=view.findViewById(R.id.tvCart);
         rvProductItems=view.findViewById(R.id.rvItems);
         productItemList= new ArrayList<>();
-        krogerClient=new KrogerClient(((MainActivity)getActivity()));
         productItemsAdapter=new ProductItemsAdapter(((MainActivity)getActivity()),productItemList);
         layoutManager=new LinearLayoutManager(((MainActivity)getActivity()));
-
+        krogerClient=((MainActivity) getActivity()).krogerClient;
 
 
 
         locationsDetailsList=new ArrayList<>();
+        locationsDetailsList.addAll(((MainActivity) getActivity()).locationsDetailsList);
+        /*
         for (String brand : brands) {
             locationsDetailsList.addAll(krogerClient.getLocations(brand));
         }
+         */
         //locationsDetailsList.addAll(krogerClient.getLocations("Ralphs"));
         rvProductItems.setAdapter(productItemsAdapter);
         rvProductItems.setLayoutManager(layoutManager);
@@ -99,12 +101,17 @@ public class SearchFragment extends Fragment {
                                     productItemList.addAll(krogerClient.getItems(term,locationsDetailsList.get(j)));
                                     //We can't simply update the adapter because we can't apparently update the ui from a thread other than the main one
                                     //Therefore we need ANOTHER runnable but on the UiThread. Without this section the results only shows when the user closes the soft keyboard
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            productItemsAdapter.notifyDataSetChanged();
-                                        }
-                                    });
+                                    try{
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                productItemsAdapter.notifyDataSetChanged();
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
                             }
                         }
@@ -115,10 +122,7 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void addAll()
-    {
 
-    }
 
     public void clear()
     {
