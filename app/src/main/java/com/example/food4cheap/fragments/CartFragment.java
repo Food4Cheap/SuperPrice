@@ -33,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class CartFragment extends Fragment {
@@ -69,6 +71,7 @@ public class CartFragment extends Fragment {
         itemsCart = new ArrayList<ProductItem>();
         ShoppingCartItemsAdapter shoppingCartItemsAdapter = new ShoppingCartItemsAdapter(getContext(), itemsCart);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
+
         rvItems.setAdapter(shoppingCartItemsAdapter);
         fillModel(shoppingCartItemsAdapter);
         btnUpdateCart = view.findViewById(R.id.btnUpdateCart);
@@ -104,6 +107,13 @@ public class CartFragment extends Fragment {
                             itemsCart.add(item);
                             totalPrice += item.getPrice() * item.getQuantity();
                         }
+                        Collections.sort(itemsCart, new Comparator<ProductItem>() {
+                            @Override
+                            public int compare(ProductItem productItem, ProductItem t1) {
+                                return productItem.getStoreAddress().compareTo(t1.getStoreAddress());
+                            }
+                        });
+                        itemsCart = addSeparators(itemsCart);
                         shoppingCartItemsAdapter.notifyDataSetChanged();
                         tvCart.setText("Total: $" + totalPrice);
                     }
@@ -113,4 +123,28 @@ public class CartFragment extends Fragment {
                 }
             });
         }
+        public List<ProductItem> addSeparators(List<ProductItem> items){
+            String currentStoreName = items.get(0).getStoreAddress();
+            double totalPrice = 0;
+            for(int i = 0; i < items.size(); i++){
+                if(currentStoreName.compareTo(items.get(i).getStoreAddress()) != 0){
+                    ProductItem separator = new ProductItem();
+                    separator.setStoreAddress(currentStoreName);
+                    separator.setPrice(totalPrice);
+                    separator.setItemName("STORE TOTAL");
+                    currentStoreName = items.get(i).getStoreAddress();
+                    totalPrice = 0;
+                    items.add(i, separator);
+                }
+                else{
+                    totalPrice += items.get(i).getPrice() *  items.get(i).getQuantity();
+                }
+            }
+            ProductItem end = new ProductItem();
+            end.setStoreAddress(currentStoreName);
+            end.setPrice(totalPrice);
+            end.setItemName("STORE TOTAL");
+            items.add(end);
+            return items;
     }
+}

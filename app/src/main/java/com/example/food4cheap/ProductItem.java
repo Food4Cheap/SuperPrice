@@ -3,6 +3,8 @@ package com.example.food4cheap;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
+import java.util.Comparator;
+
 
 @ParseClassName("ProductItem")
 public class ProductItem extends ParseObject{
@@ -54,4 +56,5 @@ public class ProductItem extends ParseObject{
     }
     public void setItemName(String itemName){ put(KEY_ITEM_NAME, itemName); }
     public void setStoreAddress(String storeAddress) { put(KEY_STORE_ADDRESS, storeAddress); }
+
 }

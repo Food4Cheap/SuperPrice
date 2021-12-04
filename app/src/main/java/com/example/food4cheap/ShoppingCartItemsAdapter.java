@@ -96,6 +96,11 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<ShoppingCartI
                     }
                 }
             });
+            if(item.getItemName() == "STORE TOTAL"){
+                btnIncrease.setVisibility(View.INVISIBLE);
+                btnDecrease.setVisibility(View.INVISIBLE);
+                tvQuantity.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }
