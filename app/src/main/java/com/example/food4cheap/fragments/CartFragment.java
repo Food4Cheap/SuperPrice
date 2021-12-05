@@ -78,7 +78,16 @@ public class CartFragment extends Fragment {
         btnUpdateCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                for(int i = 0; i < itemsCart.size(); i++){
+                    if(itemsCart.get(i).getQuantity() != copyItemsCart.get(i).getQuantity()){
+                        if(itemsCart.get(i).getQuantity() == 0){
+                            shoppingCart.removeItem(itemsCart.get(i).getUPC());
+                        }
+                        else{
+                            itemsCart.get(i).saveInBackground();
+                        }
+                    }
+                }
             }
         });
 
@@ -134,6 +143,7 @@ public class CartFragment extends Fragment {
                     separator.setPrice(totalPrice);
                     separator.setStore(currentStoreBrand);
                     separator.setItemName("STORE TOTAL");
+                    separator.setQuantity(0);
                     currentStoreName = items.get(i).getStoreAddress();
                     currentStoreBrand = items.get(i).getStore();
                     totalPrice = 0;
@@ -148,7 +158,11 @@ public class CartFragment extends Fragment {
             end.setPrice(totalPrice);
             end.setStore(currentStoreBrand);
             end.setItemName("STORE TOTAL");
+            end.setQuantity(0);
             items.add(end);
+            for(int i = 0; i < items.size(); i++){
+                copyItemsCart.add(items.get(i));
+            }
             return items;
     }
 }

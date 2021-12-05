@@ -37,6 +37,20 @@ public class ShoppingCart extends ParseObject{
         put(KEY_ITEMS, items);
     }
 
+    public void removeItem(String UPC){
+        JSONArray items = getItems();
+        for(int i = 0; i < items.length(); i++){
+            try {
+                if(items.getJSONObject(i).getString("UPC").compareTo(UPC) == 0){
+                    items.remove(i);
+                    put(KEY_ITEMS, items);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public double getPrice() {
         final double[] totalPrice = {0};
         JSONArray cartArr = getItems();
