@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
 import org.w3c.dom.Text;
@@ -27,10 +29,12 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
     public static final int STORE_SEPARATOR = 32;
     Context context;
     List<ProductItem> productItems;
+    TextView totalPrice;
 
-    public ShoppingCartItemsAdapter(Context c, List<ProductItem> i){
+    public ShoppingCartItemsAdapter(Context c, List<ProductItem> i, TextView p){
         context = c;
         productItems = i;
+        totalPrice = p;
     }
 
     @NonNull
@@ -114,6 +118,19 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     item.setQuantity(item.getQuantity() + 1);
+                    item.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            String priceText = totalPrice.getText().toString();
+                            priceText = priceText.substring(8);
+                            double price = Double.parseDouble(priceText);
+                            price += item.getPrice();
+                            totalPrice.setText("Total: $" + String.format("%.2f", price));
+                            int pos = findTotalAdapterPosition(item);
+                            productItems.get(pos).setPrice(productItems.get(pos).getPrice() + item.getPrice());
+                            notifyItemChanged(pos);
+                        }
+                    });
                     tvQuantity.setText("" + item.getQuantity());
                 }
             });
@@ -122,10 +139,23 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
                 public void onClick(View view) {
                     if(item.getQuantity() > 1){
                         item.setQuantity(item.getQuantity() - 1);
+                        item.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                String priceText = totalPrice.getText().toString();
+                                priceText = priceText.substring(8);
+                                double price = Double.parseDouble(priceText);
+                                price -= item.getPrice();
+                                totalPrice.setText("Total: $" + String.format("%.2f", price));
+                                int pos = findTotalAdapterPosition(item);
+                                productItems.get(pos).setPrice(productItems.get(pos).getPrice() - item.getPrice());
+                                notifyItemChanged(pos);
+                            }
+                        });
                         tvQuantity.setText("" + item.getQuantity());
                     }
                     else{
-                        Toast.makeText(context, "Item will be removed upon updating cart", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Hold item to remove from cart", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -134,6 +164,16 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
                 btnDecrease.setVisibility(View.INVISIBLE);
                 tvQuantity.setVisibility(View.INVISIBLE);
             }
+        }
+        int findTotalAdapterPosition(ProductItem item){
+            int pos = 0;
+            for(int i = 0; i < productItems.size(); i++){
+                if(productItems.get(i).getItemName().compareTo("STORE TOTAL") == 0 && productItems.get(i).getStoreAddress().compareTo(item.getStoreAddress()) == 0){
+                    pos = i;
+                    break;
+                }
+            }
+            return pos;
         }
     }
     class ViewHolder2 extends RecyclerView.ViewHolder
@@ -152,7 +192,7 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
             DecimalFormat numberFormat = new DecimalFormat("#.00");
             tvStoreAddress.setText(item.getStoreAddress());
             tvStoreName.setText(item.getStore());
-            tvTotalPrice.setText("$ "+numberFormat.format(item.getPrice()));
+            tvTotalPrice.setText("$ "+ numberFormat.format(item.getPrice()));
         }
     }
 }

@@ -47,7 +47,6 @@ public class CartFragment extends Fragment {
     ShoppingCartItemsAdapter shoppingCartItemsAdapter;
     TextView tvCart;
     double totalPrice = 0;
-    Button btnUpdateCart;
 
     public CartFragment() {
         // Required empty public constructor
@@ -69,27 +68,11 @@ public class CartFragment extends Fragment {
         tvCart.setText("Total: $" + shoppingCart.getPrice());
         rvItems = view.findViewById(R.id.rvItems);
         itemsCart = new ArrayList<ProductItem>();
-        ShoppingCartItemsAdapter shoppingCartItemsAdapter = new ShoppingCartItemsAdapter(getContext(), itemsCart);
+        copyItemsCart = new ArrayList<ProductItem>();
+        ShoppingCartItemsAdapter shoppingCartItemsAdapter = new ShoppingCartItemsAdapter(getContext(), itemsCart, tvCart);
         rvItems.setLayoutManager(new LinearLayoutManager(getContext()));
-
         rvItems.setAdapter(shoppingCartItemsAdapter);
         fillModel(shoppingCartItemsAdapter);
-        btnUpdateCart = view.findViewById(R.id.btnUpdateCart);
-        btnUpdateCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for(int i = 0; i < itemsCart.size(); i++){
-                    if(itemsCart.get(i).getQuantity() != copyItemsCart.get(i).getQuantity()){
-                        if(itemsCart.get(i).getQuantity() == 0){
-                            shoppingCart.removeItem(itemsCart.get(i).getUPC());
-                        }
-                        else{
-                            itemsCart.get(i).saveInBackground();
-                        }
-                    }
-                }
-            }
-        });
 
         }
 
@@ -124,7 +107,7 @@ public class CartFragment extends Fragment {
                         });
                         itemsCart = addSeparators(itemsCart);
                         shoppingCartItemsAdapter.notifyDataSetChanged();
-                        tvCart.setText("Total: $" + totalPrice);
+                        tvCart.setText("Total: $" + String.format("%.2f", totalPrice));
                     }
                     else{
                         Log.e(TAG, "Failed to fetch items in cart", e);
@@ -163,6 +146,7 @@ public class CartFragment extends Fragment {
             for(int i = 0; i < items.size(); i++){
                 copyItemsCart.add(items.get(i));
             }
+
             return items;
     }
 }
