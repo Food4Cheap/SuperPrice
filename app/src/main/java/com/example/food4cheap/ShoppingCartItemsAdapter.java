@@ -106,6 +106,25 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             btnIncrease = itemView.findViewById(R.id.btnIncrease);
             btnDecrease = itemView.findViewById(R.id.btnDecrease);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pos = getAdapterPosition();
+                    int totalPos = findTotalAdapterPosition(productItems.get(pos));
+                    String priceText = totalPrice.getText().toString();
+                    priceText = priceText.substring(8);
+                    double price = Double.parseDouble(priceText);
+                    double itemCost = productItems.get(pos).getPrice() * productItems.get(pos).getQuantity();
+                    price -= itemCost;
+                    productItems.get(totalPos).setPrice(productItems.get(totalPos).getPrice() - itemCost);
+                    totalPrice.setText("Total: $" + String.format("%.2f", price));
+                    notifyItemChanged(totalPos);
+                    productItems.get(pos).deleteInBackground();
+                    productItems.remove(pos);
+                    notifyItemRemoved(pos);
+                    return false;
+                }
+            });
         }
 
         public void bind(ProductItem item){

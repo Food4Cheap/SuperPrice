@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,6 +82,7 @@ public class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapte
                                 ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
                                 shoppingCart.addItem(item);
                                 shoppingCart.saveInBackground();
+                                Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
