@@ -116,6 +116,8 @@ public class CartFragment extends Fragment {
             });
         }
         public List<ProductItem> addSeparators(List<ProductItem> items){
+        if(items.size()!=0)
+        {
             String currentStoreName = items.get(0).getStoreAddress();
             String currentStoreBrand=items.get(0).getStore();
             double totalPrice = 0;
@@ -146,7 +148,7 @@ public class CartFragment extends Fragment {
             for(int i = 0; i < items.size(); i++){
                 copyItemsCart.add(items.get(i));
             }
-
+        }
             return items;
     }
 }
