@@ -25,8 +25,15 @@ import com.example.food4cheap.MainActivity;
 import com.example.food4cheap.ProductItem;
 import com.example.food4cheap.ProductItemsAdapter;
 import com.example.food4cheap.R;
+import com.example.food4cheap.ShoppingCart;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +50,7 @@ public class SearchFragment extends Fragment {
     private String brands[]={"Kroger","Bakers","CityMarket","Dillons","Food4Less","FoodsCo","FredMeyer","Frys","Gerbes","JayC","KingSoopers","MetroMarket","Owens","PayLess","PicknSave","QFC","Ralphs","Smiths"};
     List<LocationDetails> locationsDetailsList;
     List<ProductItem> productItemList;
+    List<ProductItem> shoppingCartItems;
     ProductItemsAdapter productItemsAdapter;
     LinearLayoutManager layoutManager;
     public SearchFragment() {
@@ -62,14 +70,13 @@ public class SearchFragment extends Fragment {
         etSearchText=view.findViewById(R.id.tvCart);
         rvProductItems=view.findViewById(R.id.rvItems);
         productItemList= new ArrayList<>();
-        productItemsAdapter=new ProductItemsAdapter(((MainActivity)getActivity()),productItemList);
+        shoppingCartItems = new ArrayList<ProductItem>();
+        productItemsAdapter=new ProductItemsAdapter(((MainActivity)getActivity()),productItemList, shoppingCartItems);
         layoutManager=new LinearLayoutManager(((MainActivity)getActivity()));
         krogerClient=((MainActivity) getActivity()).krogerClient;
-
-
-
         locationsDetailsList=new ArrayList<>();
         locationsDetailsList.addAll(((MainActivity) getActivity()).locationsDetailsList);
+        getShoppingCartItems();
         /*
         for (String brand : brands) {
             locationsDetailsList.addAll(krogerClient.getLocations(brand));
@@ -127,6 +134,34 @@ public class SearchFragment extends Fragment {
     public void clear()
     {
         productItemList.clear();
+        productItemsAdapter.notifyDataSetChanged();
+    }
+
+    public void getShoppingCartItems(){
+        List<ProductItem> cartItems = new ArrayList<ProductItem>();
+        ShoppingCart cart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+        JSONArray cartArr = cart.getItems();
+
+        ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
+        ArrayList<String> collection = new ArrayList<String>();
+        for(int i = 0; i < cartArr.length(); i++){
+            try {
+                collection.add(cartArr.getJSONObject(i).getString("objectId"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        query.whereContainedIn("objectId", collection);
+        query.findInBackground(new FindCallback<ProductItem>() {
+            @Override
+            public void done(List<ProductItem> objects, ParseException e) {
+                if (e == null) {
+                    for (ProductItem item : objects) {
+                        shoppingCartItems.add(item);
+                    }
+                }
+            }
+            });
         productItemsAdapter.notifyDataSetChanged();
     }
 }

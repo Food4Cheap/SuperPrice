@@ -23,10 +23,12 @@ public class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapte
 
     Context context;
     List<ProductItem> productItems;
+    List<ProductItem> shoppingCart;
 
-    public ProductItemsAdapter(Context c, List<ProductItem> items){
+    public ProductItemsAdapter(Context c, List<ProductItem> items, List<ProductItem> s){
         context = c;
         productItems = items;
+        shoppingCart = s;
     }
 
     @NonNull
@@ -75,17 +77,37 @@ public class ProductItemsAdapter extends RecyclerView.Adapter<ProductItemsAdapte
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    item.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null){
-                                ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
-                                shoppingCart.addItem(item);
-                                shoppingCart.saveInBackground();
-                                Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
-                            }
+                    boolean inCart = false;
+                    int posInCart = 0;
+                    for(int i = 0 ; i < shoppingCart.size(); i++){
+                        if(item.getUPC().compareTo(shoppingCart.get(i).getUPC()) == 0){
+                            inCart = true;
+                            posInCart = i;
+                            break;
                         }
-                    });
+                    }
+                    if(inCart == true){
+                        shoppingCart.get(posInCart).setQuantity(shoppingCart.get(posInCart).getQuantity() + 1);
+                        shoppingCart.get(posInCart).saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Toast.makeText(context, "Quantity increased", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else{
+                        item.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e == null){
+                                    ShoppingCart shoppingCart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
+                                    shoppingCart.addItem(item);
+                                    shoppingCart.saveInBackground();
+                                    Toast.makeText(context, "Item added to cart", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
             });
 
