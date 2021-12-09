@@ -1,11 +1,14 @@
 package com.example.food4cheap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -197,14 +200,28 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
     }
     class ViewHolder2 extends RecyclerView.ViewHolder
     {
+
         TextView tvStoreName;
         TextView tvStoreAddress;
         TextView tvTotalPrice;
+        RelativeLayout rlCartItem;
         public ViewHolder2(@NonNull @NotNull View itemView) {
             super(itemView);
             tvStoreAddress=itemView.findViewById(R.id.tvStoreAddress);
             tvStoreName=itemView.findViewById(R.id.tvStoreName);
             tvTotalPrice=itemView.findViewById(R.id.tvTotalPrice);
+            rlCartItem=itemView.findViewById(R.id.rlCartTotal);
+            rlCartItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q="+tvStoreAddress.getText()+tvStoreName.getText());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity( context.getPackageManager()) != null) {
+                        context.startActivity(mapIntent);
+                    }
+                }
+            });
         }
         public void bind(ProductItem item)
         {
