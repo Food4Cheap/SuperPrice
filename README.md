@@ -66,8 +66,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 **Optional Nice-to-have Stories**
 
-* Functionality to share the list with other accounts and check off items which have been purchased.
-* [x]Be able to select which store you want to shop at and open its location on Google Maps.
+* [] Functionality to share the list with other accounts and check off items which have been purchased.
+* [x] Be able to select which store you want to shop at and open its location on Google Maps.
 
 
 ### 2. Screen Archetypes
