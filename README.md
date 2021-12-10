@@ -59,15 +59,15 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 **Required Must-have Stories**
 
 * [x] Be able to search products and their details from at least 3 different major supermarkets.
-* [] Cart function so that you can add all the products you want into one place so that you can compare the overall price.
+* [x] Cart function so that you can add all the products you want into one place so that you can compare the overall price.
 * [x] Be able to create and log into accounts 
-* [] Accounts save the list of products you want to buy.
+* [x] Accounts save the list of products you want to buy.
 
 
 **Optional Nice-to-have Stories**
 
 * Functionality to share the list with other accounts and check off items which have been purchased.
-* Be able to select which store you want to shop at and open its location on Google Maps.
+* [x]Be able to select which store you want to shop at and open its location on Google Maps.
 
 
 ### 2. Screen Archetypes
