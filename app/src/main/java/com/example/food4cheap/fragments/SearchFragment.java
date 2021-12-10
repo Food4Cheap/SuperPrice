@@ -140,28 +140,35 @@ public class SearchFragment extends Fragment {
     public void getShoppingCartItems(){
         List<ProductItem> cartItems = new ArrayList<ProductItem>();
         ShoppingCart cart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
-        JSONArray cartArr = cart.getItems();
-
-        ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
-        ArrayList<String> collection = new ArrayList<String>();
-        for(int i = 0; i < cartArr.length(); i++){
-            try {
-                collection.add(cartArr.getJSONObject(i).getString("objectId"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        query.whereContainedIn("objectId", collection);
-        query.findInBackground(new FindCallback<ProductItem>() {
-            @Override
-            public void done(List<ProductItem> objects, ParseException e) {
-                if (e == null) {
-                    for (ProductItem item : objects) {
-                        shoppingCartItems.add(item);
+        if(cart!=null)
+        {
+            JSONArray cartArr = cart.getItems();
+            if(cartArr!=null)
+            {
+                ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
+                ArrayList<String> collection = new ArrayList<String>();
+                for(int i = 0; i < cartArr.length(); i++){
+                    try {
+                        collection.add(cartArr.getJSONObject(i).getString("objectId"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
+                query.whereContainedIn("objectId", collection);
+                query.findInBackground(new FindCallback<ProductItem>() {
+                    @Override
+                    public void done(List<ProductItem> objects, ParseException e) {
+                        if (e == null) {
+                            for (ProductItem item : objects) {
+                                shoppingCartItems.add(item);
+                            }
+                        }
+                    }
+                });
+                productItemsAdapter.notifyDataSetChanged();
             }
-            });
-        productItemsAdapter.notifyDataSetChanged();
+            
+        }
+
     }
 }

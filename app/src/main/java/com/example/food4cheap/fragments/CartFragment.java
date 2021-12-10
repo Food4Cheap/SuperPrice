@@ -80,40 +80,40 @@ public class CartFragment extends Fragment {
             List<ProductItem> cartItems = new ArrayList<ProductItem>();
             ShoppingCart cart = (ShoppingCart) ParseUser.getCurrentUser().getParseObject("shoppingCart");
             JSONArray cartArr = cart.getItems();
-
-            ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
-            ArrayList<String> collection = new ArrayList<String>();
-            for(int i = 0; i < cartArr.length(); i++){
-                try {
-                    collection.add(cartArr.getJSONObject(i).getString("objectId"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            if(cartArr!=null) {
+                ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
+                ArrayList<String> collection = new ArrayList<String>();
+                for (int i = 0; i < cartArr.length(); i++) {
+                    try {
+                        collection.add(cartArr.getJSONObject(i).getString("objectId"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            query.whereContainedIn("objectId", collection);
-            query.findInBackground(new FindCallback<ProductItem>() {
-                @Override
-                public void done(List<ProductItem> objects, ParseException e) {
-                    if(e == null){
-                        for(ProductItem item : objects){
-                            itemsCart.add(item);
-                            totalPrice += item.getPrice() * item.getQuantity();
-                        }
-                        Collections.sort(itemsCart, new Comparator<ProductItem>() {
-                            @Override
-                            public int compare(ProductItem productItem, ProductItem t1) {
-                                return productItem.getStoreAddress().compareTo(t1.getStoreAddress());
+                query.whereContainedIn("objectId", collection);
+                query.findInBackground(new FindCallback<ProductItem>() {
+                    @Override
+                    public void done(List<ProductItem> objects, ParseException e) {
+                        if (e == null) {
+                            for (ProductItem item : objects) {
+                                itemsCart.add(item);
+                                totalPrice += item.getPrice() * item.getQuantity();
                             }
-                        });
-                        itemsCart = addSeparators(itemsCart);
-                        shoppingCartItemsAdapter.notifyDataSetChanged();
-                        tvCart.setText("Total: $" + String.format("%.2f", totalPrice));
+                            Collections.sort(itemsCart, new Comparator<ProductItem>() {
+                                @Override
+                                public int compare(ProductItem productItem, ProductItem t1) {
+                                    return productItem.getStoreAddress().compareTo(t1.getStoreAddress());
+                                }
+                            });
+                            itemsCart = addSeparators(itemsCart);
+                            shoppingCartItemsAdapter.notifyDataSetChanged();
+                            tvCart.setText("Total: $" + String.format("%.2f", totalPrice));
+                        } else {
+                            Log.e(TAG, "Failed to fetch items in cart", e);
+                        }
                     }
-                    else{
-                        Log.e(TAG, "Failed to fetch items in cart", e);
-                    }
-                }
-            });
+                });
+            }
         }
         public List<ProductItem> addSeparators(List<ProductItem> items){
         if(items.size()!=0)

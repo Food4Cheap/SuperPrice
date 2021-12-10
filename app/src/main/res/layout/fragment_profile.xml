@@ -16,6 +16,7 @@
         android:layout_marginTop="11dp"
         android:layout_weight="1"
         android:text="Username:"
+        android:textColor="@color/black"
         android:textSize="30sp" />
 
     <TextView
@@ -28,6 +29,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="7dp"
         android:layout_toEndOf="@+id/tvUsername"
+        android:textColor="@color/black"
         android:textSize="30sp"
         tools:text="Username" />
 
@@ -40,6 +42,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="76dp"
         android:text="Money Saved:"
+        android:textColor="@color/black"
         android:textSize="30sp" />
 
     <TextView
@@ -50,6 +53,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="9dp"
+        android:textColor="@color/black"
         android:textSize="30sp"
         tools:text="N/A" />
 

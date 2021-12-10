@@ -40,29 +40,32 @@ public class ShoppingCart extends ParseObject{
     public double getPrice() {
         final double[] totalPrice = {0};
         JSONArray cartArr = getItems();
-
-        ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
-        ArrayList<String> collection = new ArrayList<String>();
-        for (int i = 0; i < cartArr.length(); i++) {
-            try {
-                collection.add(cartArr.getJSONObject(i).getString("objectId"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        query.whereContainedIn("objectId", collection);
-        query.findInBackground(new FindCallback<ProductItem>() {
-            @Override
-            public void done(List<ProductItem> objects, ParseException e) {
-                if (e == null) {
-                    for (ProductItem item : objects) {
-                        totalPrice[0] += item.getPrice() * item.getQuantity();
-                    }
-                } else {
-                    Log.e(TAG, "Failed to fetch items in cart", e);
+        if(cartArr!=null)
+        {
+            ParseQuery<ProductItem> query = ParseQuery.getQuery("ProductItem");
+            ArrayList<String> collection = new ArrayList<String>();
+            for (int i = 0; i < cartArr.length(); i++) {
+                try {
+                    collection.add(cartArr.getJSONObject(i).getString("objectId"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+            query.whereContainedIn("objectId", collection);
+            query.findInBackground(new FindCallback<ProductItem>() {
+                @Override
+                public void done(List<ProductItem> objects, ParseException e) {
+                    if (e == null) {
+                        for (ProductItem item : objects) {
+                            totalPrice[0] += item.getPrice() * item.getQuantity();
+                        }
+                    } else {
+                        Log.e(TAG, "Failed to fetch items in cart", e);
+                    }
+                }
+            });
+        }
+
         return totalPrice[0];
     }
 

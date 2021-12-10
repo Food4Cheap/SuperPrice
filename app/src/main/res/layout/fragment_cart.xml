@@ -15,6 +15,7 @@
         android:maxLines="1"
         android:minHeight="48dp"
         android:text="Your Cart: $XX.XX"
+        android:textColor="@color/black"
         android:textSize="40sp"
         tools:ignore="SpeakableTextPresentCheck" />
 

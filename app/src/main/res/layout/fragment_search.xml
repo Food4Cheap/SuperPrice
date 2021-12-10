@@ -15,6 +15,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:minHeight="48dp"
+        android:textColor="@color/black"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
