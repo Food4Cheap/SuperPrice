@@ -1,4 +1,4 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.food4cheap.MainActivity;
+import com.example.food4cheap.R;
+import com.example.food4cheap.Models.ShoppingCart;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class LoginActivity extends AppCompatActivity {
@@ -76,6 +80,14 @@ public class LoginActivity extends AppCompatActivity {
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
+                    ShoppingCart shoppingCart = new ShoppingCart();
+                    shoppingCart.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ParseUser.getCurrentUser().put("shoppingCart", shoppingCart);
+                            ParseUser.getCurrentUser().saveInBackground();
+                        }
+                    });
                     goMainActivity();
                 } else {
                     Toast.makeText(getApplicationContext(), "Signup failed. Please try again.", Toast.LENGTH_SHORT).show();

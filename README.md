@@ -117,7 +117,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Schema 
 
-### Models
+### com.example.food4cheap.Models
 #### ProductItem
 
    | Property      | Type     | Description |

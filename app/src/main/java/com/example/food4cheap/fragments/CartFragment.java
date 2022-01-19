@@ -12,27 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.food4cheap.ProductItem;
-import com.example.food4cheap.ProductItemsAdapter;
+import com.example.food4cheap.Models.ProductItem;
 import com.example.food4cheap.R;
-import com.example.food4cheap.ShoppingCart;
-import com.example.food4cheap.ShoppingCartItemsAdapter;
-import com.google.gson.JsonArray;
+import com.example.food4cheap.Models.ShoppingCart;
+import com.example.food4cheap.Adapters.ShoppingCartItemsAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -151,4 +145,5 @@ public class CartFragment extends Fragment {
         }
             return items;
     }
+
 }

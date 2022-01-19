@@ -8,24 +8,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.food4cheap.KrogerClient;
-import com.example.food4cheap.LocationDetails;
+import com.example.food4cheap.Clients.KrogerClient;
+import com.example.food4cheap.Models.LocationDetails;
 import com.example.food4cheap.MainActivity;
-import com.example.food4cheap.ProductItem;
-import com.example.food4cheap.ProductItemsAdapter;
+import com.example.food4cheap.Models.ProductItem;
+import com.example.food4cheap.Adapters.ProductItemsAdapter;
+import com.example.food4cheap.Models.ProductItemParcel;
 import com.example.food4cheap.R;
-import com.example.food4cheap.ShoppingCart;
+import com.example.food4cheap.Models.ShoppingCart;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -35,9 +35,9 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 
 public class SearchFragment extends Fragment {
@@ -69,7 +69,12 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         etSearchText=view.findViewById(R.id.tvCart);
         rvProductItems=view.findViewById(R.id.rvItems);
-        productItemList= new ArrayList<>();
+
+        //This will only run if this is the first time the fragment is created
+        if (productItemList==null){
+            productItemList= new ArrayList<>();
+        }
+
         shoppingCartItems = new ArrayList<ProductItem>();
         productItemsAdapter=new ProductItemsAdapter(((MainActivity)getActivity()),productItemList, shoppingCartItems);
         layoutManager=new LinearLayoutManager(((MainActivity)getActivity()));
@@ -77,14 +82,15 @@ public class SearchFragment extends Fragment {
         locationsDetailsList=new ArrayList<>();
         locationsDetailsList.addAll(((MainActivity) getActivity()).locationsDetailsList);
         getShoppingCartItems();
-        /*
-        for (String brand : brands) {
-            locationsDetailsList.addAll(krogerClient.getLocations(brand));
-        }
-         */
-        //locationsDetailsList.addAll(krogerClient.getLocations("Ralphs"));
+
         rvProductItems.setAdapter(productItemsAdapter);
         rvProductItems.setLayoutManager(layoutManager);
+
+        //We notify the Adapter once the view is created so that we can resume fragment's state when we had switched off
+        if (productItemList != null) {
+            productItemsAdapter.notifyDataSetChanged();
+        }
+
 
 
         //Why is there is so much stuff for something that I thought was going to be simple
@@ -167,8 +173,23 @@ public class SearchFragment extends Fragment {
                 });
                 productItemsAdapter.notifyDataSetChanged();
             }
-            
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull @NotNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        ArrayList<ProductItemParcel> arraylist = new ArrayList<ProductItemParcel>();
+        for(int i=0;i<productItemList.size();i++)
+        {
+            arraylist.add((ProductItemParcel) productItemList.get(i));
+        }
+        outState.putParcelableArrayList("SAVED",arraylist);
 
     }
+
+
+
+
 }

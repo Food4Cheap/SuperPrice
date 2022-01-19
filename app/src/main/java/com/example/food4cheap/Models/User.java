@@ -1,9 +1,7 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
-
-import bolts.Task;
 
 @ParseClassName("User")
 public class User extends ParseUser {

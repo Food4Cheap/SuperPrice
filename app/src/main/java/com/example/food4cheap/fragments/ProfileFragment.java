@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.food4cheap.LoginActivity;
+import com.example.food4cheap.Activities.LoginActivity;
 import com.example.food4cheap.R;
 import com.parse.ParseUser;
 

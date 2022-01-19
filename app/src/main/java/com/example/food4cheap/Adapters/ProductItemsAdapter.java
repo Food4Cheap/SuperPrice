@@ -1,4 +1,4 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.food4cheap.Models.ProductItem;
+import com.example.food4cheap.R;
+import com.example.food4cheap.Models.ShoppingCart;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;

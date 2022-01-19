@@ -1,4 +1,4 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.food4cheap.Models.ProductItem;
+import com.example.food4cheap.R;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
         public void bind(ProductItem item){
             Glide.with(context).load(item.getImageUrl()).into(ivImage);
             tvItemName.setText(item.getItemName());
-            tvPrice.setText("" + item.getPrice());
+            tvPrice.setText("$" + item.getPrice());
             tvAddress.setText(item.getStoreAddress());
             tvQuantity.setText("" + item.getQuantity());
             btnIncrease.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +199,8 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
             return pos;
         }
     }
+    //This second ViewHolder acts as the summary cart for each unique store rather than an individual product.
+    //This is so that the user can see the total from each store. A Google Maps intent is also launched when clicking on this ViewHolder2.
     class ViewHolder2 extends RecyclerView.ViewHolder
     {
 
@@ -211,6 +214,7 @@ public class ShoppingCartItemsAdapter extends RecyclerView.Adapter<RecyclerView.
             tvStoreName=itemView.findViewById(R.id.tvStoreName);
             tvTotalPrice=itemView.findViewById(R.id.tvTotalPrice);
             rlCartItem=itemView.findViewById(R.id.rlCartTotal);
+            //Creating the Google Map intent
             rlCartItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

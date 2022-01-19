@@ -1,4 +1,4 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Clients;
 
 import android.Manifest;
 import android.content.Context;
@@ -9,6 +9,9 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.example.food4cheap.Models.LocationDetails;
+import com.example.food4cheap.Models.ProductItem;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -47,7 +50,6 @@ public class KrogerClient {
 
         Access_Token = getNewAccessToken();
 
-
     }
 
     protected String getNewAccessToken() {
@@ -61,7 +63,7 @@ public class KrogerClient {
                 .url("https://api.kroger.com/v1/connect/oauth2/token")
                 .post(body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                .addHeader("Authorization", "Basic c3VwZXJwcmljZS1lYjdmNmEwOGZlMGJiMDQ3YWJmZTIyODRhOTVjNzRmYjM4MzQzMDkyMTk0OTQ3MTgwNTU6T3pydHlPbnFXamU4VVc2NDhTMEdZV092R3h2R2VCZERUbkdFYkkzUQ==")
+                .addHeader("Authorization", "Basic KEY_GOES_HERE")
                 .build();
         //Asynchronous call for client to grab a new access token
         client.newCall(request1).enqueue(new Callback() {
@@ -96,20 +98,11 @@ public class KrogerClient {
         locations=new ArrayList<>();
         LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-
             //This basically creates a pop up asking the user for Location permissions. Despite the permissions in Manifest, we still need personal authorization from the user due to security reasons implemented in higher APIs.
             ActivityCompat.requestPermissions(activity,new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
             Log.e(TAG,"No permissions for location");
 
         }
-
         //Code to get the best location. For some reason .getLastKnownLocation will return null sometimes even when location permission are active, so this is just gonna check all the providers to
         //see if they have a good location
         List<String> providers = lm.getProviders(true);

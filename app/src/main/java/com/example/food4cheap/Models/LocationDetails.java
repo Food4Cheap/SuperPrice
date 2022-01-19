@@ -1,4 +1,4 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Models;
 
 public class LocationDetails {
     private int locationId;

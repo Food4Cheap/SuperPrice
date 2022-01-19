@@ -1,6 +1,9 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Clients;
 
 import android.app.Application;
+
+import com.example.food4cheap.Models.ProductItem;
+import com.example.food4cheap.Models.ShoppingCart;
 import com.parse.Parse;
 import com.parse.ParseObject;
 

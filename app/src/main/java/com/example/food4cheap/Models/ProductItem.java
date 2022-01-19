@@ -1,9 +1,9 @@
-package com.example.food4cheap;
+package com.example.food4cheap.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-import java.util.Comparator;
+
 
 
 @ParseClassName("ProductItem")
@@ -16,6 +16,11 @@ public class ProductItem extends ParseObject{
     public static final String KEY_STORE = "store";
     public static final String KEY_ITEM_NAME = "itemName";
     public static final String KEY_STORE_ADDRESS = "storeAddress";
+
+    //Empty Constructor for Parcelable
+    public ProductItem()
+    {}
+
 
     public String getUPC(){
         return getString(KEY_UPC);
