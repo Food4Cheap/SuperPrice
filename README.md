@@ -51,6 +51,10 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 <img src='Food4CheapMilestone2gif1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
+### Milestone 3 Video Walkthrough of Search Function
+
+<img src='Food4CheapMilestone3part1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 
 ## Product Spec
 
